@@ -1,8 +1,17 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { Bike, Building, Film, Github, Ham, Home, Pizza } from "lucide-react";
-import { Bot } from "lucide-react";
+import { 
+  Wind, 
+  FileText, 
+  Leaf, 
+  Flower, 
+  Mountain, 
+  Home as HomeIcon, 
+  GanttChart, 
+  BarChart 
+} from "lucide-react";
 
 import { BentoCard } from "~/components/magicui/bento-grid";
 
@@ -11,59 +20,67 @@ import { SectionHeader } from "../components/section-header";
 const caseStudies = [
   {
     id: "eiffel-tower-vs-tallest-building",
-    icon: Building,
-    title: "How tall is Eiffel Tower compared to tallest building?",
+    icon: Wind,
+    title: "Irish Wind Energy Potential",
     description:
-      "The research compares the heights and global significance of the Eiffel Tower and Burj Khalifa, and uses Python code to calculate the multiples.",
+      "The analysis compares Ireland's offshore wind capacity to current utilization and maps optimal locations for future development based on wind patterns and environmental impact assessments.",
+    prompt: "Analyze Ireland's offshore wind energy potential and compare it to current utilization. What are the optimal locations for future development based on wind patterns and environmental impact assessments?"
   },
   {
     id: "github-top-trending-repo",
-    icon: Github,
-    title: "What are the top trending repositories on GitHub?",
+    icon: FileText,
+    title: "What are Ireland's top environmental policies?",
     description:
-      "The research utilized MCP services to identify the most popular GitHub repositories and documented them in detail using search engines.",
+      "The research evaluates Ireland's most impactful climate policies and compares them to EU benchmarks using comprehensive data analysis.",
+    prompt: "What are Ireland's most impactful climate policies? Compare them to EU benchmarks using comprehensive data analysis."
   },
   {
     id: "nanjing-traditional-dishes",
-    icon: Ham,
-    title: "Write an article about Nanjing's traditional dishes",
+    icon: Leaf,
+    title: "Explore Ireland's biodiversity hotspots",
     description:
-      "The study vividly showcases Nanjing's famous dishes through rich content and imagery, uncovering their hidden histories and cultural significance.",
+      "The study vividly showcases Ireland's crucial biodiversity areas through rich content and imagery, highlighting their ecological significance and conservation status.",
+    prompt: "Explore Ireland's crucial biodiversity areas. What is their ecological significance and current conservation status?"
   },
   {
     id: "rental-apartment-decoration",
-    icon: Home,
-    title: "How to decorate a small rental apartment?",
+    icon: Flower,
+    title: "How to create a sustainable Irish garden?",
     description:
-      "The study provides readers with practical and straightforward methods for decorating apartments, accompanied by inspiring images.",
+      "The study provides readers with practical and straightforward methods for developing native plant gardens in Irish climate conditions, accompanied by seasonal planting guides.",
+    prompt: "How can I create a sustainable Irish garden? Provide practical methods for developing native plant gardens in Irish climate conditions, including seasonal planting guides."
   },
   {
     id: "review-of-the-professional",
-    icon: Film,
-    title: "Introduce the movie 'Léon: The Professional'",
+    icon: Mountain,
+    title: "The impact of peatland restoration in Ireland'",
     description:
-      "The research provides a comprehensive introduction to the movie 'Léon: The Professional', including its plot, characters, and themes.",
+      "The research provides a comprehensive analysis of Irish peatland restoration projects, including their carbon sequestration potential, biodiversity benefits, and implementation challenges.",
+    prompt: "Analyze the impact of peatland restoration in Ireland. What is the carbon sequestration potential, biodiversity benefits, and what implementation challenges exist?"
   },
   {
     id: "china-food-delivery",
-    icon: Bike,
-    title: "How do you view the takeaway war in China? (in Chinese)",
+    icon: HomeIcon,
+    title: "How effective are community energy schemes in rural Ireland?",
     description:
-      "The research analyzes the intensifying competition between JD and Meituan, highlighting their strategies, technological innovations, and challenges.",
+      "The research analyzes the growing adoption of community-owned renewable energy projects in rural Irish communities, highlighting their economic benefits, implementation models, and policy support.",
+    prompt: "Evaluate the effectiveness of community energy schemes in rural Ireland. What economic benefits do they provide, what implementation models exist, and what policy support is available?"
   },
   {
     id: "ultra-processed-foods",
-    icon: Pizza,
-    title: "Are ultra-processed foods linked to health?",
+    icon: GanttChart,
+    title: "Are Irish organic farming practices sustainable?",
     description:
-      "The research examines the health risks of rising ultra-processed food consumption, urging more research on long-term effects and individual differences.",
+      "The research examines the environmental impact of Irish organic farming methods, comparing carbon footprints, biodiversity outcomes, and economic viability to conventional agriculture.",
+    prompt: "Are Irish organic farming practices sustainable? Compare their environmental impact, carbon footprint, biodiversity outcomes, and economic viability to conventional agriculture."
   },
   {
     id: "ai-twin-insurance",
-    icon: Bot,
-    title: 'Write an article on "Would you insure your AI twin?"',
+    icon: BarChart,
+    title: "Analyze Ireland's progress toward 2030 climate goals",
     description:
-      "The research explores the concept of insuring AI twins, highlighting their benefits, risks, ethical considerations, and the evolving regulatory.",
+      "The research explores Ireland's climate action plan implementation, highlighting achievements, challenges, policy effectiveness, and recommendations for accelerating progress.",
+    prompt: "Analyze Ireland's progress toward 2030 climate goals. What has been achieved so far, what challenges remain, how effective are current policies, and what recommendations can accelerate progress?"
   },
 ];
 
@@ -73,7 +90,7 @@ export function CaseStudySection() {
       <SectionHeader
         anchor="case-studies"
         title="Case Studies"
-        description="See DeerFlow in action through replays."
+        description="Click on any case study to start a new investigation on the topic."
       />
       <div className="grid w-3/4 grid-cols-1 gap-2 sm:w-full sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {caseStudies.map((caseStudy) => (
@@ -83,8 +100,8 @@ export function CaseStudySection() {
                 Icon: caseStudy.icon,
                 name: caseStudy.title,
                 description: caseStudy.description,
-                href: `/chat?replay=${caseStudy.id}`,
-                cta: "Click to watch replay",
+                href: `/chat?prompt=${encodeURIComponent(caseStudy.prompt)}`,
+                cta: "Start investigation",
                 className: "w-full h-full",
               }}
             />

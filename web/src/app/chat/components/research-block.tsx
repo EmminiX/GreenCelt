@@ -1,4 +1,5 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import { Check, Copy, Headphones, Pencil, Undo2, X } from "lucide-react";

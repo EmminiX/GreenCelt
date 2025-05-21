@@ -1,11 +1,12 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
-import { useStore } from "~/core/store";
+import { sendMessage, useStore } from "~/core/store";
 import { cn } from "~/lib/utils";
 
 import { MessagesBlock } from "./components/messages-block";
@@ -17,6 +18,27 @@ export default function Main() {
     () => openResearchId !== null,
     [openResearchId],
   );
+
+  // Check for prompt parameter and automatically send it
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const prompt = urlParams.get('prompt');
+    
+    if (prompt) {
+      // Send the prompt to the chat
+      const decodedPrompt = decodeURIComponent(prompt);
+      
+      // Using void operator to explicitly mark the promise as intentionally not awaited
+      void sendMessage(decodedPrompt).catch(error => {
+        console.error("Failed to send initial prompt:", error);
+      });
+      
+      // Remove the prompt from the URL to prevent resubmission on refresh
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+  }, []);
+
   return (
     <div
       className={cn(

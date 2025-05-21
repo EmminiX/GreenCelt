@@ -1,4 +1,5 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import { motion } from "framer-motion";
@@ -8,10 +9,10 @@ import { cn } from "~/lib/utils";
 import { Welcome } from "./welcome";
 
 const questions = [
-  "How many times taller is the Eiffel Tower than the tallest building in the world?",
-  "How many years does an average Tesla battery last compared to a gasoline engine?",
-  "How many liters of water are required to produce 1 kg of beef?",
-  "How many times faster is the speed of light compared to the speed of sound?",
+  "How does Ireland's renewable energy production compare to EU targets?",
+  "What native Irish tree species are best for carbon sequestration and biodiversity?",
+  "How many liters of water are required to produce 1 kg of Irish beef?",
+  "What funding options are available for community solar projects in Ireland?",
 ];
 export function ConversationStarter({
   className,

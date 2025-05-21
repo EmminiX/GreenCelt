@@ -1,4 +1,5 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import { Bird, Microscope, Podcast, Usb, User } from "lucide-react";
@@ -13,7 +14,7 @@ const features = [
     name: "Dive Deeper and Reach Wider",
     description:
       "Unlock deeper insights with advanced tools. Our powerful search + crawling and Python tools gathers comprehensive data, delivering in-depth reports to enhance your study.",
-    href: "https://github.com/bytedance/deer-flow/blob/main/src/tools",
+    href: "https://github.com/EmminiX",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -25,7 +26,7 @@ const features = [
     name: "Human-in-the-loop",
     description:
       "Refine your research plan, or adjust focus areas all through simple natural language.",
-    href: "https://github.com/bytedance/deer-flow/blob/main/src/graph/nodes.py",
+    href: "https://cloud.google.com/discover/human-in-the-loop",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -49,7 +50,7 @@ const features = [
     name: "MCP Integrations",
     description:
       "Supercharge your research workflow and expand your toolkit with seamless MCP integrations.",
-    href: "https://github.com/bytedance/deer-flow/blob/main/src/graph/nodes.py",
+    href: "https://modelcontextprotocol.io/sdk/java/mcp-server",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -61,7 +62,7 @@ const features = [
     name: "Podcast Generation",
     description:
       "Instantly generate podcasts from reports. Perfect for on-the-go learning or sharing findings effortlessly.  ",
-    href: "https://github.com/bytedance/deer-flow/blob/main/src/podcast",
+    href: "https://github.com",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -76,7 +77,7 @@ export function CoreFeatureSection() {
       <SectionHeader
         anchor="core-features"
         title="Core Features"
-        description="Find out what makes DeerFlow effective."
+        description="Find out what makes GreenCeltAI effective."
       />
       <BentoGrid className="w-3/4 lg:grid-cols-2 lg:grid-rows-3">
         {features.map((feature) => (

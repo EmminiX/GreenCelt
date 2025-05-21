@@ -3,6 +3,7 @@
  * for Docker builds.
  */
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import "./src/env.js";

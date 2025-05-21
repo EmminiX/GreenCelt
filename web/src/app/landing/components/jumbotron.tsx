@@ -1,7 +1,8 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { GithubFilled } from "@ant-design/icons";
+import { Brain } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -12,38 +13,35 @@ import { env } from "~/env";
 
 export function Jumbotron() {
   return (
-    <section className="flex h-[95vh] w-full flex-col items-center justify-center pb-15">
-      <FlickeringGrid
-        id="deer-hero-bg"
-        className={`absolute inset-0 z-0 [mask-image:radial-gradient(800px_circle_at_center,white,transparent)]`}
-        squareSize={4}
-        gridGap={4}
-        color="#60A5FA"
-        maxOpacity={0.133}
-        flickerChance={0.1}
-      />
+    <section className="relative flex h-[95vh] w-full flex-col items-center justify-center pb-15 overflow-hidden">
+      {/* EU silhouette with flickering stars */}
       <FlickeringGrid
         id="deer-hero"
-        className="absolute inset-0 z-0 translate-y-[2vh] mask-[url(/images/deer-hero.svg)] mask-size-[100vw] mask-center mask-no-repeat md:mask-size-[72vh]"
+        className="absolute inset-0 z-1 translate-y-[2vh] mask-[url(/images/deer-hero.svg)] mask-size-[100vw] mask-center mask-no-repeat md:mask-size-[72vh]"
         squareSize={3}
         gridGap={6}
-        color="#60A5FA"
-        maxOpacity={0.64}
-        flickerChance={0.12}
+        color="#FFFFFF"
+        maxOpacity={1}
+        flickerChance={0.25}
       />
+      
       <div className="relative z-10 flex flex-col items-center justify-center gap-12">
         <h1 className="text-center text-4xl font-bold md:text-6xl">
           <span className="bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-transparent">
-            Deep Research{" "}
+          Environmental Intelligence{" "}
           </span>
-          <AuroraText>at Your Fingertips</AuroraText>
+          <AuroraText 
+            className="bg-gradient-to-r from-[#169B62] via-white to-[#FF883E] bg-clip-text text-transparent"
+            colors={["#169B62", "#FFFFFF", "#FF883E"]}
+          >for Ireland&apos;s Green Future</AuroraText>
         </h1>
-        <p className="max-w-4xl p-2 text-center text-sm opacity-85 md:text-2xl">
-          Meet DeerFlow, your personal Deep Research assistant. With powerful
-          tools like search engines, web crawlers, Python and MCP services, it
-          delivers instant insights, comprehensive reports, and even captivating
-          podcasts.
-        </p>
+        <div className="max-w-4xl p-2 text-center text-sm md:text-2xl">
+          <p className="text-[#EAFFE0] font-medium tracking-wide leading-relaxed animate-pulse-slow" style={{
+            textShadow: "0 0 2px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.8)"
+          }}>
+            Meet GreenCeltAI, your specialized environmental assistant for Ireland. With deep expertise in sustainability, renewable energy, and Irish environmental policy, it delivers accurate insights, practical guidance, and comprehensive support for building a greener Ireland.
+          </p>
+        </div>
         <div className="flex gap-6">
           <Button className="hidden text-lg md:flex md:w-42" size="lg" asChild>
             <Link
@@ -52,7 +50,7 @@ export function Jumbotron() {
               }
               href={
                 env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY
-                  ? "https://github.com/bytedance/deer-flow"
+                  ? "https://emmi.zone"
                   : "/chat"
               }
             >
@@ -67,18 +65,22 @@ export function Jumbotron() {
               asChild
             >
               <Link
-                href="https://github.com/bytedance/deer-flow"
+                href="https://emmi.zone"
                 target="_blank"
               >
-                <GithubFilled />
-                Learn More
+                <Brain />
+                More Projects
               </Link>
             </Button>
           )}
         </div>
       </div>
-      <div className="absolute bottom-8 flex text-xs opacity-50">
-        <p>* DEER stands for Deep Exploration and Efficient Research.</p>
+      <div className="absolute bottom-8 flex flex-col items-center text-xs opacity-70">
+        <p>* GREEN stands for Grassroots Research & Environmental Education for the Nation.</p>
+        <div className="mt-2 flex flex-col items-center text-center">
+          <p>Built on <Link href="https://github.com/bytedance/deer-flow" target="_blank" className="underline hover:text-white">DeerFlow</Link> with custom prompt engineering</p>
+          <p>Licensed under MIT License © 2025 <Link href="https://emmi.zone" target="_blank" className="underline hover:text-white">Emmi C</Link></p>
+        </div>
       </div>
     </section>
   );

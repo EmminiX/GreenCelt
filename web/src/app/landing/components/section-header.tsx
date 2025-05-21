@@ -1,5 +1,8 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
+
+import React from "react";
 
 export function SectionHeader({
   anchor,
@@ -14,10 +17,10 @@ export function SectionHeader({
     <>
       {anchor && <a id={anchor} className="absolute -top-20" />}
       <div className="mb-12 flex flex-col items-center justify-center gap-2">
-        <h2 className="mb-4 bg-gradient-to-r from-white via-gray-200 to-gray-400 bg-clip-text text-center text-5xl font-bold text-transparent">
+        <h2 className="mb-4 text-center text-5xl font-bold text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
           {title}
         </h2>
-        <p className="text-muted-foreground text-center text-xl">
+        <p className="text-center text-xl text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
           {description}
         </p>
       </div>

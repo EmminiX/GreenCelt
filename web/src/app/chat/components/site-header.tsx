@@ -1,4 +1,5 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import { StarFilledIcon, GitHubLogoIcon } from "@radix-ui/react-icons";
@@ -13,8 +14,8 @@ export async function SiteHeader() {
     <header className="supports-backdrop-blur:bg-background/80 bg-background/40 sticky top-0 left-0 z-40 flex h-15 w-full flex-col items-center backdrop-blur-lg">
       <div className="container flex h-15 items-center justify-between px-3">
         <div className="text-xl font-medium">
-          <span className="mr-1 text-2xl">🦌</span>
-          <span>DeerFlow</span>
+          <span className="mr-1 text-2xl">☘️</span>
+          <span>GreenCeltAI</span>
         </div>
         <div className="relative flex items-center">
           <div

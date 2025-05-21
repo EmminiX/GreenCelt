@@ -1,4 +1,5 @@
 // Copyright (c) 2025 Bytedance Ltd. and/or its affiliates
+// Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
 import { motion } from "framer-motion";
@@ -24,10 +25,9 @@ export function Welcome({ className }: { className?: string }) {
           rel="noopener noreferrer"
           className="hover:underline"
         >
-          🦌 DeerFlow
+          ☘️ GreenCeltAI
         </a>
-        , a deep research assistant built on cutting-edge language models, helps
-        you search on web, browse information, and handle complex tasks.
+        , a specialized environmental assistant built on cutting-edge language models, helping you research Irish sustainability initiatives, explore environmental policies, and implement green solutions.
       </div>
     </motion.div>
   );
