@@ -177,5 +177,5 @@ export const GeneralTab: Tab = ({
     </div>
   );
 };
-GeneralTab.displayName = "";
+GeneralTab.displayName = "Settings";
 GeneralTab.icon = Settings;

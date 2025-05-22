@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 200px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Server Connection Test</h1>
+    <p>Testing connection to the server at <code>http://localhost:8000</code></p>
+    
+    <button id="testButton">Test Connection</button>
+    
+    <div id="output">Results will appear here...</div>
+
+    <script>
+        document.getElementById('testButton').addEventListener('click', async () => {
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = 'Testing connection...';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/chat/stream', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: 'user', content: 'Hello' }]
+                    })
+                });
+                
+                if (response.ok) {
+                    outputDiv.textContent = 'Connection successful! Server is responding.';
+                    
+                    // Try to read some of the stream
+                    const reader = response.body.getReader();
+                    let result = '';
+                    
+                    try {
+                        for (let i = 0; i < 5; i++) {
+                            const {done, value} = await reader.read();
+                            if (done) break;
+                            result += new TextDecoder().decode(value);
+                        }
+                        
+                        outputDiv.textContent += '\n\nReceived data from stream:\n' + result;
+                    } catch (e) {
+                        outputDiv.textContent += '\n\nError reading stream: ' + e.message;
+                    }
+                } else {
+                    outputDiv.textContent = `Connection failed with status: ${response.status} ${response.statusText}`;
+                }
+            } catch (error) {
+                outputDiv.textContent = `Error connecting to server: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>

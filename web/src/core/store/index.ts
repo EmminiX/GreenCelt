@@ -2,5 +2,5 @@
 // Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-export * from "./store";
 export * from "./settings-store";
+export * from "./store";

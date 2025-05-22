@@ -3,6 +3,36 @@ import { useStore, useToolCalls } from "~/core/store";
 import { Tooltip } from "./tooltip";
 import { WarningFilled } from "@ant-design/icons";
 
+// Validates and sanitizes URLs
+function sanitizeUrl(url: string | undefined): string | null {
+  if (!url || url.trim() === "") return null;
+  
+  // Handle special cases that cause browser errors
+  if (url === "https://") return null;
+  
+  try {
+    // Try to parse as a proper URL
+    new URL(url);
+    return url;
+  } catch (e) {
+    // Check if it might be a relative URL or a URL without protocol
+    if (url.startsWith("/")) {
+      // It's a relative URL, leave it as is
+      return url;
+    } else if (!url.includes("://") && !url.startsWith(":")) {
+      // Likely a domain without protocol, add https://
+      try {
+        new URL(`https://${url}`);
+        return `https://${url}`;
+      } catch {
+        return null;
+      }
+    }
+    // URL is invalid
+    return null;
+  }
+}
+
 export const Link = ({
   href,
   children,
@@ -30,15 +60,25 @@ export const Link = ({
     return links;
   }, [toolCalls]);
 
+  // Sanitize URL before rendering
+  const sanitizedHref = useMemo(() => {
+    return sanitizeUrl(href);
+  }, [href]);
+
   const isCredible = useMemo(() => {
-    return checkLinkCredibility && href && !responding
-      ? credibleLinks.has(href)
+    return checkLinkCredibility && sanitizedHref && !responding
+      ? credibleLinks.has(sanitizedHref)
       : true;
-  }, [credibleLinks, href, responding, checkLinkCredibility]);
+  }, [credibleLinks, sanitizedHref, responding, checkLinkCredibility]);
+
+  // Don't render as a link if URL is invalid
+  if (!sanitizedHref) {
+    return <span>{children}</span>;
+  }
 
   return (
     <span className="flex items-center gap-1.5">
-      <a href={href} target="_blank" rel="noopener noreferrer">
+      <a href={sanitizedHref} target="_blank" rel="noopener noreferrer">
         {children}
       </a>
       {!isCredible && (

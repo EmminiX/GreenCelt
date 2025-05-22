@@ -13,7 +13,7 @@ import { env } from "~/env";
 
 export function Jumbotron() {
   return (
-    <section className="relative flex h-[95vh] w-full flex-col items-center justify-center pb-15 overflow-hidden">
+    <section className="relative flex min-h-[90vh] w-full flex-col items-center justify-center pb-15 overflow-hidden">
       {/* EU silhouette with flickering stars */}
       <FlickeringGrid
         id="deer-hero"
@@ -77,10 +77,6 @@ export function Jumbotron() {
       </div>
       <div className="absolute bottom-8 flex flex-col items-center text-xs opacity-70">
         <p>* GREEN stands for Grassroots Research & Environmental Education for the Nation.</p>
-        <div className="mt-2 flex flex-col items-center text-center">
-          <p>Built on <Link href="https://github.com/bytedance/deer-flow" target="_blank" className="underline hover:text-white">DeerFlow</Link> with custom prompt engineering</p>
-          <p>Licensed under MIT License © 2025 <Link href="https://emmi.zone" target="_blank" className="underline hover:text-white">Emmi C</Link></p>
-        </div>
       </div>
     </section>
   );

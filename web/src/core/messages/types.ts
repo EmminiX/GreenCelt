@@ -13,7 +13,7 @@ export interface Message {
     | "researcher"
     | "coder"
     | "reporter"
-    | "podcast";
+    | "document";
   role: MessageRole;
   isStreaming?: boolean;
   content: string;
@@ -22,6 +22,7 @@ export interface Message {
   options?: Option[];
   finishReason?: "stop" | "interrupt" | "tool_calls";
   interruptFeedback?: string;
+  error?: string; // Add error field to store error messages when streaming fails
 }
 
 export interface Option {

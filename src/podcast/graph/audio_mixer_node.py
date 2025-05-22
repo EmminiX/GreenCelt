@@ -10,8 +10,8 @@ logger = logging.getLogger(__name__)
 
 
 def audio_mixer_node(state: PodcastState):
-    logger.info("Mixing audio chunks for podcast...")
-    audio_chunks = state["audio_chunks"]
-    combined_audio = b"".join(audio_chunks)
-    logger.info("The podcast audio is now ready.")
-    return {"output": combined_audio}
+    logger.info("Audio functionality has been removed...")
+    # Return a placeholder message instead of audio
+    placeholder_message = b"TTS functionality has been removed from this application."
+    logger.info("Returning placeholder message instead of audio.")
+    return {"output": placeholder_message}

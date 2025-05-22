@@ -4,6 +4,7 @@
 
 import { Settings } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import React from "react";
 
 import { Tooltip } from "~/components/deer-flow/tooltip";
 import { Badge } from "~/components/ui/badge";
@@ -102,9 +103,9 @@ export function SettingsDialog() {
       </Tooltip>
       <DialogContent className="sm:max-w-[850px]">
         <DialogHeader>
-          <DialogTitle>DeerFlow Settings</DialogTitle>
+          <DialogTitle>GreenCeltAI Settings</DialogTitle>
           <DialogDescription>
-            Manage your DeerFlow settings here.
+            Manage your GreenCeltAI settings here.
           </DialogDescription>
         </DialogHeader>
         <Tabs value={activeTabId}>
@@ -121,7 +122,7 @@ export function SettingsDialog() {
                     )}
                     onClick={() => setActiveTabId(tab.id)}
                   >
-                    <tab.icon size={16} />
+                    {React.createElement(tab.icon, { size: 16 })}
                     <span>{tab.label}</span>
                     {tab.badge && (
                       <Badge

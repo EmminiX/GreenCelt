@@ -2,19 +2,31 @@
 // Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { Settings, type LucideIcon } from "lucide-react";
-
 import { AboutTab } from "./about-tab";
 import { GeneralTab } from "./general-tab";
 import { MCPTab } from "./mcp-tab";
 
-export const SETTINGS_TABS = [GeneralTab, MCPTab, AboutTab].map((tab) => {
-  const name = tab.name ?? tab.displayName;
-  return {
-    ...tab,
-    id: name.replace(/Tab$/, "").toLocaleLowerCase(),
-    label: name.replace(/Tab$/, ""),
-    icon: (tab.icon ?? <Settings />) as LucideIcon,
-    component: tab,
-  };
-});
+export const SETTINGS_TABS = [
+  {
+    ...GeneralTab,
+    id: "settings",
+    label: "Settings",
+    icon: GeneralTab.icon!,
+    component: GeneralTab,
+  },
+  {
+    ...MCPTab,
+    id: "mcp",
+    label: "MCP",
+    badge: "Beta",
+    icon: MCPTab.icon!,
+    component: MCPTab,
+  },
+  {
+    ...AboutTab,
+    id: "about",
+    label: "About",
+    icon: AboutTab.icon!,
+    component: AboutTab,
+  },
+];

@@ -41,18 +41,61 @@ export async function* chatStream(
   ) {
     return yield* chatReplayStream(userMessage, params, options);
   }
-  const stream = fetchStream(resolveServiceURL("chat/stream"), {
-    body: JSON.stringify({
-      messages: [{ role: "user", content: userMessage }],
-      ...params,
-    }),
-    signal: options.abortSignal,
+  
+  // Resolve URL outside the loop so we can modify it if needed
+  const apiUrl = resolveServiceURL("chat/stream");
+  let attempt = 0;
+  const MAX_ATTEMPTS = 5;
+  const requestBody = JSON.stringify({
+    messages: [{ role: "user", content: userMessage }],
+    ...params,
   });
-  for await (const event of stream) {
-    yield {
-      type: event.event,
-      data: JSON.parse(event.data),
-    } as ChatEvent;
+
+  // Create a local copy of the abort signal to avoid issues with streams
+  const controller = new AbortController();
+  if (options.abortSignal) {
+    options.abortSignal.addEventListener('abort', () => {
+      controller.abort();
+    });
+  }
+  
+  while (attempt < MAX_ATTEMPTS) {
+    try {
+      console.log(`Chat attempt ${attempt + 1}/${MAX_ATTEMPTS}: Connecting to ${apiUrl}`);
+      
+      const stream = fetchStream(apiUrl, {
+        body: requestBody,
+        signal: controller.signal,
+        // Add cache busting query parameter to prevent caching issues
+        cache: 'no-store',
+      });
+      
+      // Use for-await to process events as they arrive
+      for await (const event of stream) {
+        yield {
+          type: event.event,
+          data: JSON.parse(event.data),
+        } as ChatEvent;
+      }
+      
+      // If we get here, the stream completed successfully
+      break;
+      
+    } catch (error) {
+      attempt++;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error(`Chat stream error (attempt ${attempt}/${MAX_ATTEMPTS}):`, errorMessage);
+      
+      // For network errors, try again with exponential backoff
+      if (attempt < MAX_ATTEMPTS) {
+        const backoffMs = Math.min(1000 * Math.pow(1.5, attempt), 10000);
+        console.log(`Retrying in ${backoffMs}ms...`);
+        await sleep(backoffMs);
+      } else {
+        // If we've exhausted retries, throw the error
+        throw error;
+      }
+    }
   }
 }
 

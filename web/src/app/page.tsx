@@ -2,7 +2,7 @@
 // Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { useMemo } from "react";
+import Link from "next/link";
 
 import { FlickeringGrid } from "~/components/magicui/flickering-grid";
 
@@ -15,7 +15,8 @@ import { MultiAgentSection } from "./landing/sections/multi-agent-section";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center min-h-screen landing-page">
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-[#003399] via-[#003399] to-[#003399]" />
       <div className="fixed inset-0 z-0 w-full h-full pointer-events-none">
         <FlickeringGrid
           id="main-page-bg"
@@ -28,7 +29,7 @@ export default function HomePage() {
         />
       </div>
       <SiteHeader />
-      <main className="container relative z-10 flex flex-col items-center justify-center gap-56">
+      <main className="container relative z-10 flex flex-col items-center justify-center gap-56 mt-16">
         <Jumbotron />
         <CaseStudySection />
         <MultiAgentSection />
@@ -41,7 +42,6 @@ export default function HomePage() {
 }
 
 function Footer() {
-  const year = useMemo(() => new Date().getFullYear(), []);
   return (
     <footer className="container relative mt-32 flex flex-col items-center justify-center">
       <hr className="from-border/0 via-border/70 to-border/0 m-0 h-px w-full border-none bg-gradient-to-r" />
@@ -51,8 +51,8 @@ function Footer() {
         </p>
       </div>
       <div className="text-muted-foreground container mb-8 flex flex-col items-center justify-center text-xs">
-        <p>Licensed under MIT License</p>
-        <p>&copy; {year} GreenCeltAI</p>
+          <p>Built on <Link href="https://github.com/EmminiX/GreenCelt/tree/main" target="_blank" className="underline hover:text-white">DeerFlow</Link> with custom prompt engineering</p>
+          <p>Licensed under MIT License © 2025 <Link href="https://emmi.zone" target="_blank" className="underline hover:text-white">Emmi C</Link></p>
       </div>
     </footer>
   );

@@ -12,6 +12,35 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 
+// Helper for validating URLs to prevent console errors
+const isValidImageUrl = (url: string | Blob | null | undefined): boolean => {
+  // Handle Blob case first
+  if (url instanceof Blob) {
+    return true; // Blobs are valid for image sources
+  }
+  
+  // Handle string cases
+  if (typeof url !== 'string') return false;
+  if (!url || url === "https://" || url.trim() === "") return false;
+  
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+// Helper for sanitizing markdown to prevent invalid URL references
+const sanitizeMarkdown = (markdown: string): string => {
+  // Remove or fix invalid image references
+  return markdown
+    // Replace empty image URLs
+    .replace(/!\[.*?\]\(\s*\)/g, '') // ![alt]()
+    .replace(/!\[.*?\]\(\s*"\s*"\s*\)/g, '') // ![alt]("")
+    .replace(/!\[.*?\]\(\s*''\s*\)/g, ''); // ![alt]('')
+};
+
 import { Button } from "~/components/ui/button";
 import { rehypeSplitWordsIntoSpans } from "~/core/rehype";
 import { autoFixMarkdown } from "~/core/utils/markdown";
@@ -43,11 +72,24 @@ export function Markdown({
           {children}
         </Link>
       ),
-      img: ({ src, alt }) => (
-        <a href={src as string} target="_blank" rel="noopener noreferrer">
-          <Image className="rounded" src={src as string} alt={alt ?? ""} />
-        </a>
-      ),
+      img: ({ src, alt }) => {
+        // Handle the string | Blob | undefined type coming from React Markdown
+        // Skip rendering if src is invalid
+        if (!src || !isValidImageUrl(src as (string | Blob))) {
+          return null;
+        }
+        
+        // Cast to appropriate type for the href and src attributes
+        const imgSrc = src as (string | Blob);
+        const imgAlt = (alt as string) ?? "";
+        const href = typeof imgSrc === 'string' ? imgSrc : '#';
+        
+        return (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            <Image className="rounded" src={imgSrc} alt={imgAlt} />
+          </a>
+        );
+      },
     };
   }, [checkLinkCredibility]);
 
@@ -66,7 +108,7 @@ export function Markdown({
         {...props}
       >
         {autoFixMarkdown(
-          dropMarkdownQuote(processKatexInMarkdown(children ?? "")) ?? "",
+          dropMarkdownQuote(processKatexInMarkdown(sanitizeMarkdown(children ?? ""))) ?? "",
         )}
       </ReactMarkdown>
       {enableCopy && typeof children === "string" && (

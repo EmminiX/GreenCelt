@@ -1,45 +1,32 @@
-# 🦌 [About DeerFlow](https://github.com/bytedance/deer-flow)
+**☘️ About GreenCeltAI**
+***Environmental Intelligence for Ireland's Future***
 
-> **From Open Source, Back to Open Source**
+**GreenCeltAI** (**G**rassroots **R**esearch & **E**nvironmental **E**ducation for the **N**ation) is a specialized AI assistant designed exclusively to support Ireland's sustainability and environmental progress. Developed in partnership with GEAI (Green Energy Alliance Ireland), it serves as an expert resource on environmental matters affecting the island—from renewable energy to biodiversity, youth engagement to EU policies.
 
-**DeerFlow** (**D**eep **E**xploration and **E**fficient **R**esearch **Flow**) is a community-driven AI automation framework inspired by the remarkable contributions of the open source community. Our mission is to seamlessly integrate language models with specialized tools for tasks such as web search, crawling, and Python code execution—all while giving back to the community that made this innovation possible.
+**🌱 Purpose**
+GreenCeltAI exists to help Ireland become a more sustainable nation by providing accurate environmental information, supporting grassroots initiatives, guiding policy implementation, and empowering communities.
 
----
+**📚 Expertise Domains**
+* Irish environmental organizations & policies
+* Renewable energy optimization for Irish conditions
+* Biodiversity and habitat conservation
+* Community & youth environmental engagement
+* Food waste & soil management for Irish agriculture
+* Environmental health monitoring
+* EU comparisons & global sustainability benchmarks
 
-## 🌟 GitHub Repository
+**🙌 Acknowledgments**
+This project builds upon the excellent foundation of **DeerFlow** (github.com/bytedance/deer-flow), an open-source AI automation framework. We've adapted its powerful architecture for our specific environmental focus while maintaining respect for its original MIT License.
 
-Explore DeerFlow on GitHub: [github.com/bytedance/deer-flow](https://github.com/bytedance/deer-flow)
+**Core Customizations**
+* Specialized Irish environmental knowledge base
+* Tailored response framework for sustainability questions
+* Customized interface with environmental themes
+* Ireland-specific research capabilities
 
----
+**Special Thanks**
+* **DeerFlow Team**: Daniel Walnut and Henry Li, whose original work made this adaptation possible
+* **GEAI Partners**: For their environmental expertise and guidance
+* **Emmi C.**: For prompt engineering and front-end improvements
 
-## 📜 License
-
-DeerFlow is proudly open source and distributed under the **MIT License**.
-
----
-
-## 🙌 Acknowledgments
-
-We extend our heartfelt gratitude to the open source projects and contributors who have made DeerFlow a reality. We truly stand on the shoulders of giants.
-
-### Core Frameworks
-- **[LangChain](https://github.com/langchain-ai/langchain)**: A phenomenal framework that powers our LLM interactions and chains.
-- **[LangGraph](https://github.com/langchain-ai/langgraph)**: Enabling sophisticated multi-agent orchestration.
-- **[Next.js](https://nextjs.org/)**: A cutting-edge framework for building web applications.
-
-### UI Libraries
-- **[Shadcn](https://ui.shadcn.com/)**: Minimalistic components that power our UI.
-- **[Zustand](https://zustand.docs.pmnd.rs/)**: A stunning state management library.
-- **[Framer Motion](https://www.framer.com/motion/)**: An amazing animation library.
-- **[React Markdown](https://www.npmjs.com/package/react-markdown)**: Exceptional markdown rendering with customizability.
-- **[SToneX](https://github.com/stonexer)**: For his invaluable contribution to token-by-token visual effects.
-
-These outstanding projects form the backbone of DeerFlow and exemplify the transformative power of open source collaboration.
-
-### Special Thanks
-Finally, we want to express our heartfelt gratitude to the core authors of `DeerFlow`:
-
-- **[Daniel Walnut](https://github.com/hetaoBackend/)**
-- **[Henry Li](https://github.com/magiccube/)**
-
-Without their vision, passion and dedication, `DeerFlow` would not be what it is today.
+GreenCeltAI represents the intersection of advanced AI technology and focused environmental purpose—working to create a greener Ireland, today and for generations to come.

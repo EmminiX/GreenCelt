@@ -7,10 +7,9 @@ import { toast } from "sonner";
 import { create } from "zustand";
 import { useShallow } from "zustand/react/shallow";
 
-import { chatStream, generatePodcast } from "../api";
+import { chatStream } from "../api";
 import type { Message } from "../messages";
 import { mergeMessage } from "../messages";
-import { parseJSON } from "../utils";
 
 import { getChatStreamSettings } from "./settings-store";
 
@@ -95,58 +94,115 @@ export async function sendMessage(
   }
 
   const settings = getChatStreamSettings();
-  const stream = chatStream(
-    content ?? "[REPLAY]",
-    {
-      thread_id: THREAD_ID,
-      interrupt_feedback: interruptFeedback,
-      auto_accepted_plan: settings.autoAcceptedPlan,
-      enable_background_investigation:
-        settings.enableBackgroundInvestigation ?? true,
-      max_plan_iterations: settings.maxPlanIterations,
-      max_step_num: settings.maxStepNum,
-      max_search_results: settings.maxSearchResults,
-      mcp_settings: settings.mcpSettings,
-    },
-    options,
-  );
-
+  let stream;
+  let connectionAttempts = 0;
+  const MAX_CONNECTION_ATTEMPTS = 3;
+  
   setResponding(true);
   let messageId: string | undefined;
+  
   try {
-    for await (const event of stream) {
-      const { type, data } = event;
-      messageId = data.id;
-      let message: Message | undefined;
-      if (type === "tool_call_result") {
-        message = findMessageByToolCallId(data.tool_call_id);
-      } else if (!existsMessage(messageId)) {
-        message = {
-          id: messageId,
-          threadId: data.thread_id,
-          agent: data.agent,
-          role: data.role,
-          content: "",
-          contentChunks: [],
-          isStreaming: true,
-          interruptFeedback,
-        };
-        appendMessage(message);
-      }
-      message ??= getMessage(messageId);
-      if (message) {
-        message = mergeMessage(message, event);
-        updateMessage(message);
+    while (connectionAttempts < MAX_CONNECTION_ATTEMPTS) {
+      try {
+        stream = chatStream(
+          content ?? "[REPLAY]",
+          {
+            thread_id: THREAD_ID,
+            interrupt_feedback: interruptFeedback,
+            auto_accepted_plan: settings.autoAcceptedPlan,
+            enable_background_investigation:
+              settings.enableBackgroundInvestigation ?? true,
+            max_plan_iterations: settings.maxPlanIterations,
+            max_step_num: settings.maxStepNum,
+            max_search_results: settings.maxSearchResults,
+            mcp_settings: settings.mcpSettings,
+          },
+          options,
+        );
+        
+        for await (const event of stream) {
+          const { type, data } = event;
+          messageId = data.id;
+          let message: Message | undefined;
+          if (type === "tool_call_result") {
+            message = findMessageByToolCallId(data.tool_call_id);
+          } else if (!existsMessage(messageId)) {
+            message = {
+              id: messageId,
+              threadId: data.thread_id,
+              agent: data.agent,
+              role: data.role,
+              content: "",
+              contentChunks: [],
+              isStreaming: true,
+              interruptFeedback,
+            };
+            appendMessage(message);
+          }
+          message ??= getMessage(messageId);
+          if (message) {
+            message = mergeMessage(message, event);
+            updateMessage(message);
+          }
+        }
+        
+        // If we get here, the stream completed successfully
+        break;
+      } catch (error) {
+        connectionAttempts++;
+        
+        // If it's our last attempt or not a network error, propagate the error
+        if (connectionAttempts >= MAX_CONNECTION_ATTEMPTS || 
+            !(error instanceof TypeError && error.message.includes("network"))) {
+          throw error;
+        }
+        
+        // Otherwise, wait before retrying
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log(`Retrying connection attempt ${connectionAttempts}/${MAX_CONNECTION_ATTEMPTS}...`);
       }
     }
-  } catch {
-    toast("An error occurred while generating the response. Please try again.");
-    // Update message status.
-    // TODO: const isAborted = (error as Error).name === "AbortError";
+  } catch (error) {
+    console.error("Chat stream error:", error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    
+    // Log additional details for debugging
+    console.error("Chat stream error details:", {
+      errorType: error instanceof Error ? error.name : typeof error,
+      messageId,
+      threadId: THREAD_ID,
+      errorStack: error instanceof Error ? error.stack : "No stack trace"
+    });
+    
+    // Create a user-friendly error message based on the error type
+    let userErrorMessage;
+    if (error instanceof TypeError && errorMessage.includes("network")) {
+      userErrorMessage = "Network connection error. Please check your internet connection and try again.";
+    } else if (errorMessage.includes("abort")) {
+      userErrorMessage = "Request was cancelled.";
+    } else if (errorMessage.includes("timeout")) {
+      userErrorMessage = "Request timed out. Please try again later.";
+    } else {
+      userErrorMessage = `Error: ${errorMessage}. Please try again.`;
+    }
+    
+    toast(userErrorMessage, {
+      duration: 5000,
+      action: {
+        label: "Retry",
+        onClick: () => {
+          void sendMessage(content, { interruptFeedback }, options);
+        },
+      },
+    });
+    
+    // Update message status
     if (messageId != null) {
       const message = getMessage(messageId);
       if (message?.isStreaming) {
         message.isStreaming = false;
+        // Mark the message with the error information
+        message.error = userErrorMessage;
         useStore.getState().updateMessage(message);
       }
     }
@@ -266,66 +322,6 @@ export function openResearch(researchId: string | null) {
 
 export function closeResearch() {
   useStore.getState().closeResearch();
-}
-
-export async function listenToPodcast(researchId: string) {
-  const planMessageId = useStore.getState().researchPlanIds.get(researchId);
-  const reportMessageId = useStore.getState().researchReportIds.get(researchId);
-  if (planMessageId && reportMessageId) {
-    const planMessage = getMessage(planMessageId)!;
-    const title = parseJSON(planMessage.content, { title: "Untitled" }).title;
-    const reportMessage = getMessage(reportMessageId);
-    if (reportMessage?.content) {
-      appendMessage({
-        id: nanoid(),
-        threadId: THREAD_ID,
-        role: "user",
-        content: "Please generate a podcast for the above research.",
-        contentChunks: [],
-      });
-      const podCastMessageId = nanoid();
-      const podcastObject = { title, researchId };
-      const podcastMessage: Message = {
-        id: podCastMessageId,
-        threadId: THREAD_ID,
-        role: "assistant",
-        agent: "podcast",
-        content: JSON.stringify(podcastObject),
-        contentChunks: [],
-        isStreaming: true,
-      };
-      appendMessage(podcastMessage);
-      // Generating podcast...
-      let audioUrl: string | undefined;
-      try {
-        audioUrl = await generatePodcast(reportMessage.content);
-      } catch (e) {
-        console.error(e);
-        useStore.setState((state) => ({
-          messages: new Map(useStore.getState().messages).set(
-            podCastMessageId,
-            {
-              ...state.messages.get(podCastMessageId)!,
-              content: JSON.stringify({
-                ...podcastObject,
-                error: e instanceof Error ? e.message : "Unknown error",
-              }),
-              isStreaming: false,
-            },
-          ),
-        }));
-        toast("An error occurred while generating podcast. Please try again.");
-        return;
-      }
-      useStore.setState((state) => ({
-        messages: new Map(useStore.getState().messages).set(podCastMessageId, {
-          ...state.messages.get(podCastMessageId)!,
-          content: JSON.stringify({ ...podcastObject, audioUrl }),
-          isStreaming: false,
-        }),
-      }));
-    }
-  }
 }
 
 export function useResearchMessage(researchId: string) {

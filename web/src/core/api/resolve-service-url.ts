@@ -6,6 +6,12 @@ import { env } from "~/env";
 
 export function resolveServiceURL(path: string) {
   let BASE_URL = env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api/";
+  
+  // When running in browser, change backend:8000 to localhost:8000
+  if (typeof window !== 'undefined' && BASE_URL.includes('backend:8000')) {
+    BASE_URL = BASE_URL.replace('backend:8000', 'localhost:8000');
+  }
+
   if (!BASE_URL.endsWith("/")) {
     BASE_URL += "/";
   }

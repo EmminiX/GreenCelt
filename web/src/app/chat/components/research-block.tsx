@@ -2,16 +2,20 @@
 // Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { Check, Copy, Headphones, Pencil, Undo2, X } from "lucide-react";
+import { Check, Copy, Pencil, Undo2, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
 import { ScrollContainer } from "~/components/deer-flow/scroll-container";
-import { Tooltip } from "~/components/deer-flow/tooltip";
 import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from "~/components/ui/tooltip";
 import { useReplay } from "~/core/replay";
-import { closeResearch, listenToPodcast, useStore } from "~/core/store";
+import { closeResearch, useStore } from "~/core/store";
 import { cn } from "~/lib/utils";
 
 import { ResearchActivitiesBlock } from "./research-activities-block";
@@ -40,13 +44,6 @@ export function ResearchBlock({
       setActiveTab("report");
     }
   }, [hasReport]);
-
-  const handleGeneratePodcast = useCallback(async () => {
-    if (!researchId) {
-      return;
-    }
-    await listenToPodcast(researchId);
-  }, [researchId]);
 
   const [editing, setEditing] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -82,51 +79,49 @@ export function ResearchBlock({
         <div className="absolute right-4 flex h-9 items-center justify-center">
           {hasReport && !reportStreaming && (
             <>
-              <Tooltip title="Generate podcast">
-                <Button
-                  className="text-gray-400"
-                  size="icon"
-                  variant="ghost"
-                  disabled={isReplay}
-                  onClick={handleGeneratePodcast}
-                >
-                  <Headphones />
-                </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    className="text-gray-400"
+                    size="icon"
+                    variant="ghost"
+                    disabled={isReplay}
+                    onClick={handleEdit}
+                  >
+                    {editing ? <Undo2 /> : <Pencil />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Edit</TooltipContent>
               </Tooltip>
-              <Tooltip title="Edit">
-                <Button
-                  className="text-gray-400"
-                  size="icon"
-                  variant="ghost"
-                  disabled={isReplay}
-                  onClick={handleEdit}
-                >
-                  {editing ? <Undo2 /> : <Pencil />}
-                </Button>
-              </Tooltip>
-              <Tooltip title="Copy">
-                <Button
-                  className="text-gray-400"
-                  size="icon"
-                  variant="ghost"
-                  onClick={handleCopy}
-                >
-                  {copied ? <Check /> : <Copy />}
-                </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    className="text-gray-400"
+                    size="icon"
+                    variant="ghost"
+                    onClick={handleCopy}
+                  >
+                    {copied ? <Check /> : <Copy />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Copy</TooltipContent>
               </Tooltip>
             </>
           )}
-          <Tooltip title="Close">
-            <Button
-              className="text-gray-400"
-              size="sm"
-              variant="ghost"
-              onClick={() => {
-                closeResearch();
-              }}
-            >
-              <X />
-            </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                className="text-gray-400"
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  closeResearch();
+                }}
+              >
+                <X />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Close</TooltipContent>
           </Tooltip>
         </div>
         <Tabs

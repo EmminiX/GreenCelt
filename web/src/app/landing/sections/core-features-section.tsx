@@ -2,7 +2,7 @@
 // Modifications and enhancements by Emmi C (GreenCeltAI)
 // SPDX-License-Identifier: MIT
 
-import { Bird, Microscope, Podcast, Usb, User } from "lucide-react";
+import { Bird, Microscope, Usb, User, Lightbulb } from "lucide-react";
 
 import { BentoCard, BentoGrid } from "~/components/magicui/bento-grid";
 
@@ -58,11 +58,11 @@ const features = [
     className: "lg:col-start-2 lg:col-end-3 lg:row-start-2 lg:row-end-3",
   },
   {
-    Icon: Podcast,
-    name: "Podcast Generation",
+    Icon: Lightbulb,
+    name: "PromptSage Integration",
     description:
-      "Instantly generate podcasts from reports. Perfect for on-the-go learning or sharing findings effortlessly.  ",
-    href: "https://github.com",
+      "Enhance your environmental research with advanced prompt engineering. PromptSage optimizes AI interactions for deeper insights into Irish sustainability topics and policy analysis.",
+    href: "https://promptsage.com",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
