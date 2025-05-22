@@ -43,7 +43,7 @@ export function Jumbotron() {
           </p>
         </div>
         <div className="flex gap-6">
-          <Button className="hidden text-lg md:flex md:w-42" size="lg" asChild>
+          <Button className="flex text-sm md:text-lg w-32 md:w-42" size="lg" asChild>
             <Link
               target={
                 env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY ? "_blank" : undefined
@@ -59,7 +59,7 @@ export function Jumbotron() {
           </Button>
           {!env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY && (
             <Button
-              className="w-42 text-lg"
+              className="text-sm md:text-lg w-32 md:w-42"
               size="lg"
               variant="outline"
               asChild
@@ -75,7 +75,7 @@ export function Jumbotron() {
           )}
         </div>
       </div>
-      <div className="absolute bottom-8 flex flex-col items-center text-xs opacity-70">
+      <div className="absolute bottom-8 flex flex-col items-center text-xs opacity-70 px-4 md:px-0 max-w-full text-center">
         <p>* GREEN stands for Grassroots Research & Environmental Education for the Nation.</p>
       </div>
     </section>
