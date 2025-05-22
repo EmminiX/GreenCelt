@@ -5,6 +5,7 @@
 import { Bird, Microscope, Usb, User, Lightbulb } from "lucide-react";
 
 import { BentoCard, BentoGrid } from "~/components/magicui/bento-grid";
+import { cn } from "~/lib/utils";
 
 import { SectionHeader } from "../components/section-header";
 
@@ -14,7 +15,7 @@ const features = [
     name: "Dive Deeper and Reach Wider",
     description:
       "Unlock deeper insights with advanced tools. Our powerful search + crawling and Python tools gathers comprehensive data, delivering in-depth reports to enhance your study.",
-    href: "https://github.com/EmminiX",
+    href: "https://github.com/EmminiX/GreenCelt/tree/main",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -62,7 +63,7 @@ const features = [
     name: "PromptSage Integration",
     description:
       "Enhance your environmental research with advanced prompt engineering. PromptSage optimizes AI interactions for deeper insights into Irish sustainability topics and policy analysis.",
-    href: "https://promptsage.com",
+    href: "https://drive.google.com/file/d/1GVpBhezVZKsRFqfFYQU8MJPB664_dq7E/view?usp=sharing",
     cta: "Learn more",
     background: (
       <img alt="background" className="absolute -top-20 -right-20 opacity-60" />
@@ -79,9 +80,13 @@ export function CoreFeatureSection() {
         title="Core Features"
         description="Find out what makes GreenCeltAI effective."
       />
-      <BentoGrid className="w-3/4 lg:grid-cols-2 lg:grid-rows-3">
+      <BentoGrid className="w-full max-w-[90%] sm:max-w-[95%] md:max-w-[90%] lg:max-w-[85%] px-2 sm:px-4 gap-6 lg:grid-cols-2 lg:grid-rows-3">
         {features.map((feature) => (
-          <BentoCard key={feature.name} {...feature} />
+          <BentoCard 
+            key={feature.name} 
+            {...feature} 
+            className={cn(feature.className, "min-h-[280px]")}
+          />
         ))}
       </BentoGrid>
     </section>
