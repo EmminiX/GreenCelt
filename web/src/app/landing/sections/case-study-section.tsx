@@ -86,15 +86,15 @@ const caseStudies = [
 
 export function CaseStudySection() {
   return (
-    <section className="relative container hidden flex-col items-center justify-center md:flex">
+    <section className="relative flex w-full flex-col items-center justify-center">
       <SectionHeader
         anchor="case-studies"
         title="Case Studies"
         description="Click on any case study to start a new investigation on the topic."
       />
-      <div className="grid w-3/4 grid-cols-1 gap-2 sm:w-full sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid w-full max-w-[90%] sm:max-w-[95%] md:max-w-[90%] lg:max-w-[85%] grid-cols-1 gap-6 px-2 sm:px-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {caseStudies.map((caseStudy) => (
-          <div key={caseStudy.title} className="w-full p-2">
+          <div key={caseStudy.title} className="w-full">
             <BentoCard
               {...{
                 Icon: caseStudy.icon,
@@ -102,7 +102,7 @@ export function CaseStudySection() {
                 description: caseStudy.description,
                 href: `/chat?prompt=${encodeURIComponent(caseStudy.prompt)}`,
                 cta: "Start investigation",
-                className: "w-full h-full",
+                className: "w-full h-full min-h-[280px]",
               }}
             />
           </div>

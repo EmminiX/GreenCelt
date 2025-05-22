@@ -222,6 +222,12 @@
   backdrop-filter: blur(8px);
 }
 
+.fixed-header .container {
+  max-width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .fixed-header.scroll-down {
   transform: translateY(-100%);
 }

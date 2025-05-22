@@ -16,11 +16,11 @@ export function SectionHeader({
   return (
     <>
       {anchor && <a id={anchor} className="absolute -top-20" />}
-      <div className="mb-12 flex flex-col items-center justify-center gap-2">
-        <h2 className="mb-4 text-center text-5xl font-bold text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
+      <div className="mb-8 sm:mb-12 flex flex-col items-center justify-center gap-2 px-4">
+        <h2 className="mb-2 sm:mb-4 text-center text-3xl sm:text-4xl md:text-5xl font-bold text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
           {title}
         </h2>
-        <p className="text-center text-xl text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
+        <p className="text-center text-base sm:text-lg md:text-xl text-white [text-shadow:0_0_8px_rgba(0,0,0,0.5)]">
           {description}
         </p>
       </div>

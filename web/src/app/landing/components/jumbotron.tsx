@@ -21,7 +21,7 @@ export function Jumbotron() {
         squareSize={3}
         gridGap={6}
         color="#FFFFFF"
-        maxOpacity={1}
+        maxOpacity={3}
         flickerChance={0.25}
       />
       
