@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { motion } from "framer-motion";
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import { LoadingAnimation } from "~/components/deer-flow/loading-animation";
 import { Markdown } from "~/components/deer-flow/markdown";
@@ -74,12 +74,12 @@ export function MessageListView({
 
   return (
     <ScrollContainer
-      className={cn("flex h-full w-full flex-col overflow-hidden", className)}
+      className={cn("flex h-full w-full flex-col overflow-hidden items-center", className)}
       scrollShadowColor="var(--app-background)"
       autoScrollToBottom
       ref={scrollContainerRef}
     >
-      <ul className="flex flex-col">
+      <ul className="flex flex-col w-full max-w-[700px] px-1 sm:px-0 pb-4 mx-auto">
         {messageIds.map((messageId) => (
           <MessageListItem
             key={messageId}
@@ -94,7 +94,7 @@ export function MessageListView({
         <div className="flex h-8 w-full shrink-0"></div>
       </ul>
       {responding && (noOngoingResearch || !ongoingResearchIsOpen) && (
-        <LoadingAnimation className="ml-4" />
+        <LoadingAnimation className="ml-2 sm:ml-4 mb-4" />
       )}
     </ScrollContainer>
   );
@@ -135,39 +135,47 @@ function MessageListItem({
       let content: React.ReactNode;
       if (message.agent === "planner") {
         content = (
-          <div className="w-full px-4">
-            <PlanCard
-              message={message}
-              waitForFeedback={waitForFeedback}
-              interruptMessage={interruptMessage}
-              onFeedback={onFeedback}
-              onSendMessage={onSendMessage}
-            />
+          <div className="w-full px-4 flex justify-center">
+            <div className="w-full max-w-[700px]">
+              <PlanCard
+                message={message}
+                waitForFeedback={waitForFeedback}
+                interruptMessage={interruptMessage}
+                onFeedback={onFeedback}
+                onSendMessage={onSendMessage}
+              />
+            </div>
           </div>
         );
       } else if (startOfResearch) {
         content = (
-          <div className="w-full px-4">
-            <ResearchCard
-              researchId={message.id}
-              onToggleResearch={onToggleResearch}
-            />
+          <div className="w-full px-4 flex justify-center">
+            <div className="w-full max-w-[700px]">
+              <ResearchCard
+                researchId={message.id}
+                onToggleResearch={onToggleResearch}
+              />
+            </div>
           </div>
         );
       } else {
         content = message.content ? (
           <div
             className={cn(
-              "flex w-full px-4",
-              message.role === "user" && "justify-end",
+              "flex w-full px-2 sm:px-4 justify-center",
               className,
             )}
           >
-            <MessageBubble message={message}>
-              <div className="flex w-full flex-col">
-                <Markdown>{message?.content}</Markdown>
-              </div>
-            </MessageBubble>
+            <div className={cn(
+              "flex w-full max-w-[700px]",
+              message.role === "user" ? "justify-end" : "justify-start",
+            )}>
+              <MessageBubble message={message}>
+                <div className="flex w-full flex-col max-w-full overflow-hidden">
+                  <Markdown>{message?.content}</Markdown>
+                </div>
+              </MessageBubble>
+            </div>
           </div>
         ) : null;
       }
@@ -202,13 +210,14 @@ function MessageBubble({
   message: Message;
   children: React.ReactNode;
 }) {
+  const isUser = message.role === "user";
   return (
     <div
       className={cn(
-        `flex w-fit max-w-[85%] flex-col rounded-2xl px-4 py-3 shadow`,
-        message.role === "user" &&
-          "text-primary-foreground bg-brand rounded-ee-none",
-        message.role === "assistant" && "bg-card rounded-es-none",
+        "flex max-w-[90%] sm:max-w-[80%] flex-col rounded-2xl px-3 sm:px-4 py-2 sm:py-3",
+        isUser
+          ? "bg-brand text-brand-foreground"
+          : "bg-card text-card-foreground",
         className,
       )}
     >
@@ -226,6 +235,7 @@ function ResearchCard({
   researchId: string;
   onToggleResearch?: () => void;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const reportId = useStore((state) => state.researchReportIds.get(researchId));
   const hasReport = reportId !== undefined;
   const reportGenerating = useStore(
@@ -245,6 +255,16 @@ function ResearchCard({
     }
     return undefined;
   }, [msg]);
+  
+  // Scroll the card into view when it appears
+  useEffect(() => {
+    if (cardRef.current) {
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+  }, []);
+  
   const handleOpen = useCallback(() => {
     if (openResearchId === researchId) {
       closeResearch();
@@ -254,22 +274,24 @@ function ResearchCard({
     onToggleResearch?.();
   }, [openResearchId, researchId, onToggleResearch]);
   return (
-    <Card className={cn("w-full", className)}>
-      <CardHeader>
-        <CardTitle>
+    <Card ref={cardRef} className={cn("w-full", className)}>
+      <CardHeader className="px-3 sm:px-6 py-2 sm:py-4">
+        <CardTitle className="text-base sm:text-lg">
           <RainbowText animated={state !== "Report generated"}>
             {title !== undefined && title !== "" ? title : "Deep Research"}
           </RainbowText>
         </CardTitle>
       </CardHeader>
-      <CardFooter>
-        <div className="flex w-full">
-          <RollingText className="text-muted-foreground flex-grow text-sm">
+      <CardFooter className="px-3 sm:px-6 py-2 sm:py-4">
+        <div className="flex w-full items-center flex-wrap sm:flex-nowrap gap-2">
+          <RollingText className="text-muted-foreground flex-grow text-xs sm:text-sm">
             {state}
           </RollingText>
           <Button
             variant={!openResearchId ? "default" : "outline"}
             onClick={handleOpen}
+            className="text-sm sm:text-base"
+            size="sm"
           >
             {researchId !== openResearchId ? "Open" : "Close"}
           </Button>
@@ -333,13 +355,13 @@ function PlanCard({
           {plan.thought}
         </Markdown>
         {plan.steps && (
-          <ul className="my-2 flex list-decimal flex-col gap-4 border-l-[2px] pl-8">
+          <ul className="my-2 flex list-decimal flex-col gap-3 sm:gap-4 border-l-[2px] pl-4 sm:pl-8">
             {plan.steps.map((step, i) => (
               <li key={`step-${i}`}>
-                <h3 className="mb text-lg font-medium">
+                <h3 className="mb text-base sm:text-lg font-medium">
                   <Markdown animated>{step.title}</Markdown>
                 </h3>
-                <div className="text-muted-foreground text-sm">
+                <div className="text-muted-foreground text-xs sm:text-sm">
                   <Markdown animated>{step.description}</Markdown>
                 </div>
               </li>
@@ -350,7 +372,7 @@ function PlanCard({
       <CardFooter className="flex justify-end">
         {!message.isStreaming && interruptMessage?.options?.length && (
           <motion.div
-            className="flex gap-2"
+            className="flex flex-wrap gap-2 w-full sm:w-auto justify-end"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: 0.3 }}
@@ -360,6 +382,7 @@ function PlanCard({
                 key={option.value}
                 variant={option.value === "accepted" ? "default" : "outline"}
                 disabled={!waitForFeedback}
+                className="text-sm sm:text-base"
                 onClick={() => {
                   if (option.value === "accepted") {
                     void handleAccept();

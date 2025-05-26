@@ -51,7 +51,7 @@ function Footer() {
         </p>
       </div>
       <div className="text-muted-foreground container mb-8 flex flex-col items-center justify-center text-xs">
-          <p>Built on <Link href="https://github.com/EmminiX/GreenCelt/tree/main" target="_blank" className="underline hover:text-white">DeerFlow</Link> with custom prompt engineering</p>
+          <p>Built on <Link href="https://github.com/bytedance/deer-flow" target="_blank" className="underline hover:text-white">DeerFlow</Link> with custom prompt engineering</p>
           <p>Licensed under MIT License © 2025 <Link href="https://emmi.zone" target="_blank" className="underline hover:text-white">Emmi C</Link></p>
       </div>
     </footer>

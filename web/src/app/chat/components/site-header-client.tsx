@@ -56,7 +56,7 @@ export function SiteHeaderClient() {
               asChild
               className="group relative z-10"
             >
-              <Link href="https://github.com/EmminiX/GreenCelt/tree/main" target="_blank">
+              <Link href="https://github.com/EmminiX/GreenCelt" target="_blank">
                 <GitHubLogoIcon className="size-4 mr-1.5" />
                 <span className="whitespace-nowrap">Star on GitHub</span>
                 {env.NEXT_PUBLIC_STATIC_WEBSITE_ONLY &&

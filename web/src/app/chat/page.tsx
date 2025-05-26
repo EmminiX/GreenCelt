@@ -28,13 +28,13 @@ const Main = dynamic(() => import("./main"), {
 export default function HomePage() {
   return (
     <div className="flex h-screen w-screen justify-center overscroll-none">
-      <header className="fixed top-0 left-0 flex h-12 w-full items-center justify-between px-4">
+      <header className="fixed top-0 left-0 flex h-12 w-full items-center justify-between px-4 z-50 bg-background">
         <Logo />
         <div className="flex items-center">
           <Tooltip title="Star GreenCeltAI on GitHub">
             <Button variant="ghost" size="icon" asChild>
               <Link
-                href="https://github.com/bytedance/deer-flow"
+                href="https://github.com/EmminiX/GreenCelt"
                 target="_blank"
               >
                 <GithubOutlined />

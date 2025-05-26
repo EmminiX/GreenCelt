@@ -78,28 +78,30 @@ export function MessagesBlock({ className }: { className?: string }) {
     fastForwardReplay(!fastForwarding);
   }, [fastForwarding]);
   return (
-    <div className={cn("flex h-full flex-col", className)}>
+    <div className={cn("flex h-full flex-col relative items-center", className)}>
       <MessageListView
-        className="flex flex-grow"
+        className="flex flex-grow overflow-y-auto pb-20 sm:pb-24 w-full max-w-[768px] mx-auto"
         onFeedback={handleFeedback}
         onSendMessage={handleSend}
       />
       {!isReplay ? (
-        <div className="relative flex h-42 shrink-0 pb-4">
-          {!responding && messageCount === 0 && (
-            <ConversationStarter
-              className="absolute top-[-218px] left-0"
+        <div className="fixed bottom-0 left-0 right-0 flex h-auto sm:h-42 shrink-0 pb-2 sm:pb-4 px-2 sm:px-4 z-50 bg-background justify-center">
+          <div className="w-full max-w-[768px] relative">
+            {!responding && messageCount === 0 && (
+              <ConversationStarter
+                className="absolute top-[-280px] sm:top-[-320px] md:top-[-218px] left-0 w-full sm:w-auto mx-auto"
+                onSend={handleSend}
+              />
+            )}
+            <InputBox
+              className="h-full w-full"
+              responding={responding}
+              feedback={feedback}
               onSend={handleSend}
+              onCancel={handleCancel}
+              onRemoveFeedback={handleRemoveFeedback}
             />
-          )}
-          <InputBox
-            className="h-full w-full"
-            responding={responding}
-            feedback={feedback}
-            onSend={handleSend}
-            onCancel={handleCancel}
-            onRemoveFeedback={handleRemoveFeedback}
-          />
+          </div>
         </div>
       ) : (
         <>
@@ -112,7 +114,7 @@ export function MessagesBlock({ className }: { className?: string }) {
             <Welcome />
           </div>
           <motion.div
-            className="mb-4 h-fit w-full items-center justify-center"
+            className="mb-4 h-fit w-full max-w-[768px] mx-auto items-center justify-center"
             initial={{ opacity: 0, y: "20vh" }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -170,7 +172,7 @@ export function MessagesBlock({ className }: { className?: string }) {
                 own question, please{" "}
                 <a
                   className="underline"
-                  href="https://github.com/bytedance/deer-flow"
+                  href="https://github.com/EmminiX/GreenCelt/tree/main"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -101,7 +101,7 @@ export function SettingsDialog() {
           </Button>
         </DialogTrigger>
       </Tooltip>
-      <DialogContent className="sm:max-w-[850px]">
+      <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-[850px] h-[90vh] sm:h-auto">
         <DialogHeader>
           <DialogTitle>GreenCeltAI Settings</DialogTitle>
           <DialogDescription>
@@ -109,14 +109,14 @@ export function SettingsDialog() {
           </DialogDescription>
         </DialogHeader>
         <Tabs value={activeTabId}>
-          <div className="flex h-120 w-full overflow-auto border-y">
-            <ul className="flex w-50 shrink-0 border-r p-1">
+          <div className="flex flex-col sm:flex-row h-[60vh] sm:h-120 w-full overflow-auto border-y">
+            <ul className="flex flex-row sm:flex-col w-full sm:w-50 shrink-0 border-b sm:border-b-0 sm:border-r p-1 overflow-x-auto sm:overflow-x-visible">
               <div className="size-full">
                 {SETTINGS_TABS.map((tab) => (
                   <li
                     key={tab.id}
                     className={cn(
-                      "hover:accent-foreground hover:bg-accent mb-1 flex h-8 w-full cursor-pointer items-center gap-1.5 rounded px-2",
+                      "hover:accent-foreground hover:bg-accent mr-1 sm:mr-0 sm:mb-1 flex h-8 min-w-[100px] sm:w-full cursor-pointer items-center gap-1.5 rounded px-2 whitespace-nowrap",
                       activeTabId === tab.id &&
                         "!bg-primary !text-primary-foreground",
                     )}
@@ -140,10 +140,10 @@ export function SettingsDialog() {
                 ))}
               </div>
             </ul>
-            <div className="min-w-0 flex-grow">
+            <div className="min-w-0 flex-grow max-h-[40vh] sm:max-h-none">
               <div
                 id="settings-content-scrollable"
-                className="size-full overflow-auto p-4"
+                className="size-full overflow-auto p-2 sm:p-4"
               >
                 {SETTINGS_TABS.map((tab) => (
                   <TabsContent key={tab.id} value={tab.id}>
@@ -157,11 +157,11 @@ export function SettingsDialog() {
             </div>
           </div>
         </Tabs>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+        <DialogFooter className="flex flex-col sm:flex-row gap-2 sm:gap-0">
+          <Button className="w-full sm:w-auto" variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button className="w-24" type="submit" onClick={handleSave}>
+          <Button className="w-full sm:w-24" type="submit" onClick={handleSave}>
             Save
           </Button>
         </DialogFooter>

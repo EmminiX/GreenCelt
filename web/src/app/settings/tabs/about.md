@@ -16,7 +16,7 @@ GreenCeltAI exists to help Ireland become a more sustainable nation by providing
 * EU comparisons & global sustainability benchmarks
 
 **🙌 Acknowledgments**
-This project builds upon the excellent foundation of **DeerFlow** (github.com/bytedance/deer-flow), an open-source AI automation framework. We've adapted its powerful architecture for our specific environmental focus while maintaining respect for its original MIT License.
+This project builds upon the excellent foundation of **DeerFlow**, an open-source AI automation framework. We've adapted its powerful architecture for our specific environmental focus while maintaining respect for its original MIT License. Find our project at github.com/EmminiX/GreenCelt.
 
 **Core Customizations**
 * Specialized Irish environmental knowledge base

@@ -100,23 +100,23 @@ export function InputBox({
   );
 
   return (
-    <div className={cn("bg-card relative rounded-[24px] border", className)}>
+    <div className={cn("bg-card relative rounded-[24px] border shadow-lg w-full", className)}>
       <div className="w-full">
         <AnimatePresence>
           {feedback && (
             <motion.div
               ref={feedbackRef}
-              className="bg-background border-brand absolute top-0 left-0 mt-3 ml-2 flex items-center justify-center gap-1 rounded-2xl border px-2 py-0.5"
+              className="bg-background border-brand absolute top-0 left-0 mt-3 ml-2 flex items-center justify-center gap-1 rounded-2xl border px-2 py-0.5 max-w-[calc(100%-60px)] sm:max-w-none"
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
               transition={{ duration: 0.2, ease: "easeInOut" }}
             >
-              <div className="text-brand flex h-full w-full items-center justify-center text-sm opacity-90">
+              <div className="text-brand flex h-full w-full items-center justify-center text-sm opacity-90 truncate">
                 {feedback.option.text}
               </div>
               <X
-                className="cursor-pointer opacity-60"
+                className="cursor-pointer opacity-60 flex-shrink-0"
                 size={16}
                 onClick={onRemoveFeedback}
               />
@@ -126,7 +126,7 @@ export function InputBox({
         <textarea
           ref={textareaRef}
           className={cn(
-            "m-0 w-full resize-none border-none px-4 py-3 text-lg",
+            "m-0 w-full resize-none border-none px-3 sm:px-4 py-2 sm:py-3 text-base sm:text-lg",
             size === "large" ? "min-h-32" : "min-h-4",
           )}
           style={{ textIndent: feedback ? `${indent}px` : 0 }}
@@ -144,8 +144,8 @@ export function InputBox({
           }}
         />
       </div>
-      <div className="flex items-center px-4 py-2">
-        <div className="flex grow">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center px-2 sm:px-4 py-2 gap-2 sm:gap-0">
+        <div className="flex grow w-full sm:w-auto">
           <Tooltip
             className="max-w-60"
             title={
@@ -154,7 +154,7 @@ export function InputBox({
                   Investigation Mode: {backgroundInvestigation ? "On" : "Off"}
                 </h3>
                 <p>
-                  When enabled, DeerFlow will perform a quick search before
+                  When enabled, GreenCelt will perform a quick search before
                   planning. This is useful for researches related to ongoing
                   events and news.
                 </p>
@@ -163,7 +163,7 @@ export function InputBox({
           >
             <Button
               className={cn(
-                "rounded-2xl",
+                "rounded-2xl text-sm sm:text-base w-full sm:w-auto",
                 backgroundInvestigation && "!border-brand !text-brand",
               )}
               variant="outline"
@@ -172,11 +172,11 @@ export function InputBox({
                 setEnableBackgroundInvestigation(!backgroundInvestigation)
               }
             >
-              <Detective /> Investigation
+              <Detective /> <span className="ml-1">Investigation</span>
             </Button>
           </Tooltip>
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2 w-full sm:w-auto justify-end">
           <Tooltip title={responding ? "Stop" : "Send"}>
             <Button
               variant="outline"

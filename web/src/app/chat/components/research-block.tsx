@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Check, Copy, Pencil, Undo2, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { ScrollContainer } from "~/components/deer-flow/scroll-container";
 import { Button } from "~/components/ui/button";
@@ -28,6 +28,7 @@ export function ResearchBlock({
   className?: string;
   researchId: string | null;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const reportId = useStore((state) =>
     researchId ? state.researchReportIds.get(researchId) : undefined,
   );
@@ -39,6 +40,16 @@ export function ResearchBlock({
     reportId ? (state.messages.get(reportId)?.isStreaming ?? false) : false,
   );
   const { isReplay } = useReplay();
+  
+  // Auto-scroll the research block into view when it appears
+  useEffect(() => {
+    if (researchId && cardRef.current) {
+      setTimeout(() => {
+        cardRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }
+  }, [researchId]);
+  
   useEffect(() => {
     if (hasReport) {
       setActiveTab("report");
@@ -75,7 +86,7 @@ export function ResearchBlock({
 
   return (
     <div className={cn("h-full w-full", className)}>
-      <Card className={cn("relative h-full w-full pt-4", className)}>
+      <Card ref={cardRef} className={cn("relative h-full w-full pt-4 pb-32 sm:pb-36 overflow-hidden", className)}>
         <div className="absolute right-4 flex h-9 items-center justify-center">
           {hasReport && !reportStreaming && (
             <>
@@ -150,7 +161,7 @@ export function ResearchBlock({
             hidden={activeTab !== "report"}
           >
             <ScrollContainer
-              className="px-5pb-20 h-full"
+              className="px-5 pb-32 sm:pb-36 h-full overflow-y-auto"
               scrollShadowColor="var(--card)"
               autoScrollToBottom={!hasReport || reportStreaming}
             >
@@ -171,7 +182,7 @@ export function ResearchBlock({
             hidden={activeTab !== "activities"}
           >
             <ScrollContainer
-              className="h-full"
+              className="h-full overflow-y-auto pb-32 sm:pb-36"
               scrollShadowColor="var(--card)"
               autoScrollToBottom={!hasReport || reportStreaming}
             >

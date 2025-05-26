@@ -5,7 +5,7 @@
 import "~/styles/globals.css";
 
 import { type Metadata, type Viewport } from "next";
-import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import Script from "next/script";
 
 import { ThemeProviderWrapper } from "~/components/deer-flow/theme-provider-wrapper";
@@ -68,16 +68,33 @@ export const metadata: Metadata = {
   }
 };
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
+// Using local font files for Lexend to avoid network issues in Docker
+const lexend = localFont({
+  src: [
+    {
+      path: '../assets/fonts/lexend-regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../assets/fonts/lexend-medium.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../assets/fonts/lexend-bold.woff2',
+      weight: '700',
+      style: 'normal',
+    }
+  ],
+  variable: "--font-lexend",
 });
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geist.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${lexend.variable}`} suppressHydrationWarning>
       <head>
         {/* Character encoding for proper text rendering */}
         <meta charSet="UTF-8" />
