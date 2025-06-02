@@ -10,6 +10,7 @@ import Script from "next/script";
 
 import { ThemeProviderWrapper } from "~/components/deer-flow/theme-provider-wrapper";
 import { ErrorLoggerInitializer } from "~/components/error-logger-initializer";
+import { IntroVideoModal } from "~/components/intro-video-modal";
 import { env } from "~/env";
 
 import { Toaster } from "../components/deer-flow/toaster";
@@ -273,7 +274,10 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-app">
-        <ThemeProviderWrapper>{children}</ThemeProviderWrapper>
+        <ThemeProviderWrapper>
+          {children}
+          <IntroVideoModal />
+        </ThemeProviderWrapper>
         <Toaster />
         <ErrorLoggerInitializer />
         {
