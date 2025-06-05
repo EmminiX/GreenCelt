@@ -54,7 +54,7 @@ You can set the `NEXT_PUBLIC_API_URL` environment variable if you're using a dif
 
 ```ini
 # .env
-NEXT_PUBLIC_API_URL=http://localhost:8000/api
+NEXT_PUBLIC_API_URL=http://localhost:8888/api
 ```
 
 ## Docker

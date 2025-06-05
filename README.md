@@ -128,7 +128,7 @@ For production deployment, you can use Docker:
 docker build -t greencelt-api .
 
 # Run the container
-docker run -d -p 8000:8000 --env-file .env --name greencelt-api-container greencelt-api
+docker run -d -p 8888:8888 --env-file .env --name greencelt-api-container greencelt-api
 ```
 
 This will start the API server. To run the full stack including the frontend:

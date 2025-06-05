@@ -18,7 +18,7 @@ FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
   RUN --mount=type=cache,target=/root/.cache/uv \
       uv sync --locked
 
-  EXPOSE 8000
+  EXPOSE 8888
 
   # Run the application.
-  CMD ["uv", "run", "python", "server.py", "--host", "0.0.0.0", "--port", "8000"]
+  CMD ["uv", "run", "python", "server.py", "--host", "0.0.0.0", "--port", "8888"]
