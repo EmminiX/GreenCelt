@@ -80,7 +80,7 @@ export function MessagesBlock({ className }: { className?: string }) {
   return (
     <div className={cn("flex h-full flex-col relative items-center", className)}>
       <MessageListView
-        className="flex flex-grow overflow-y-auto pb-20 sm:pb-24 w-full max-w-[768px] mx-auto"
+        className="flex flex-grow overflow-y-auto pb-32 sm:pb-40 w-full max-w-[768px] mx-auto"
         onFeedback={handleFeedback}
         onSendMessage={handleSend}
       />

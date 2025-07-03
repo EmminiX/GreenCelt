@@ -86,7 +86,7 @@ export function ResearchBlock({
 
   return (
     <div className={cn("h-full w-full", className)}>
-      <Card ref={cardRef} className={cn("relative h-full w-full pt-4 pb-32 sm:pb-36 overflow-hidden", className)}>
+      <Card ref={cardRef} className={cn("relative h-full w-full pt-4 pb-32 sm:pb-36 overflow-hidden border", className)}>
         <div className="absolute right-4 flex h-9 items-center justify-center">
           {hasReport && !reportStreaming && (
             <>
@@ -182,7 +182,7 @@ export function ResearchBlock({
             hidden={activeTab !== "activities"}
           >
             <ScrollContainer
-              className="h-full overflow-y-auto pb-32 sm:pb-36"
+              className="h-full overflow-y-auto pb-4 sm:pb-8"
               scrollShadowColor="var(--card)"
               autoScrollToBottom={!hasReport || reportStreaming}
             >
